@@ -20,18 +20,18 @@ To "test" changes, push and let CI build — or reason carefully about devicetre
 - `config/boards/shields/keyball_nano/` — the shield definition:
   - `keyball39.dtsi` — shared: physical layout, matrix transform (12 cols × 4 rows), kscan row GPIOs, i2c0 + SSD1306 OLED.
   - `keyball39_left.overlay` — left half: only col GPIOs.
-  - `keyball39_right.overlay` — right half: col GPIOs, `col-offset = <6>` on the transform, spi1 + PMW3610 trackball node with `scroll-layers`/`snipe-layers`, and the `trackball_listener` input listener.
+  - `keyball39_right.overlay` — right half: col GPIOs, `col-offset = <6>` on the transform, spi1 + PMW3610 trackball node with `automouse-layer`/`scroll-layers`/`snipe-layers`, and the `trackball_listener` input listener.
   - `keyball39_right.conf` — trackball driver options (CPI, snipe CPI, scroll tick, orientation 180°, power management). `keyball39.conf` and `keyball39_left.conf` in this folder are intentionally empty.
   - `Kconfig.defconfig` — the **right** half is the BLE split central (`ZMK_SPLIT_BLE_ROLE_CENTRAL`), not the left. Also sets display/LVGL defaults.
 - `keymap-drawer/` — empty; the keymap-drawing workflow was removed (commit "Remove keymap drawing workflow"). Don't re-add drawing automation unless asked.
 
 ## Keymap conventions
 
-- Layers by index: 0 `QWRT` (default), 1 `LH`, 2 `RH`, 3 `SYM`, 4 `NUM`, 5 `SNIPE`.
-- Layer indices are cross-referenced in `keyball39_right.overlay`: `scroll-layers = <1 3 4>` and `snipe-layers = <5>`. **If you add/reorder layers, update these devicetree properties too.**
+- Layers by index: 0 `QWRT` (default), 1 `MOUSE` (automouse), 2 `LH`, 3 `RH`, 4 `SYM`, 5 `SNIPE`.
+- Layer indices are cross-referenced in `keyball39_right.overlay`: `automouse-layer = <1>`, `scroll-layers = <2>` and `snipe-layers = <5>`. **If you add/reorder layers, update these devicetree properties too.**
 - Home-row mods use `&mt` (tap-preferred, 200 ms) and layer-taps use `&lt` (balanced, 240 ms); global tweaks are at the top of the keymap file.
 - Binding rows are whitespace-aligned into columns matching the physical layout (5+5 per row, thumb row uses `&none` fillers for the 12-column transform). Preserve this alignment when editing.
-- Mouse buttons (`&mkp LCLK/RCLK`) live on layers 1/2 since the trackball is used with the right hand.
+- Mouse buttons: automouse layer 1 puts `&mkp MCLK/LCLK/RCLK` on `J/K/L`; base thumbs also have `&mkp LCLK`. Keep `MOUSE` as layer 1 so LH/RH/SYM/SNIPE still override it when held.
 
 ## Gotchas
 
