@@ -31,7 +31,7 @@ To "test" changes, push and let CI build — or reason carefully about devicetre
 - Layer indices are cross-referenced in `keyball39_right.overlay`: `automouse-layer = <1>`, `scroll-layers = <2>` and `snipe-layers = <5>`. **If you add/reorder layers, update these devicetree properties too.**
 - Home-row mods use `&mt` (tap-preferred, 200 ms) and layer-taps use `&lt` (balanced, 240 ms); global tweaks are at the top of the keymap file.
 - Binding rows are whitespace-aligned into columns matching the physical layout (5+5 per row, thumb row uses `&none` fillers for the 12-column transform). Preserve this alignment when editing.
-- Mouse buttons: automouse layer 1 puts `&mkp MCLK/LCLK/RCLK` on `J/K/L`; base thumbs also have `&mkp LCLK`. Keep `MOUSE` as layer 1 so LH/RH/SYM/SNIPE still override it when held.
+- Mouse buttons: automouse layer 1 puts `&mkp LCLK/MCLK/RCLK` on `J/K/L`; base thumbs also have `&mkp LCLK`. Keep `MOUSE` as layer 1 so LH/RH/SYM/SNIPE still override it when held.
 
 ## Gotchas
 
